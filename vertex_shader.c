@@ -91,18 +91,13 @@ vec3 getPointOnVolume(int index)
 	vec2 tCoord = getTileCoordinate(sCoord);
 	vec2 vCoord = getVolumeCoordinate(sCoord);
 
-	// return vec3(vCoord.x, vCoord.y, float(depthLUT[int(tCoord.y)][int(tCoord.x)])) / 16.;
-
 	sCoord = sCoord / float(SAMPLEWIDTH);
-	vec3 tSample = vec3(texture(atlas, sCoord).rgb);
+	vec4 tSample = texture(atlas, sCoord);
 	
-	if (tSample != vec3(.0))
+	if (tSample.rgb != vec3(.0))
 	{
-		// color = vec4(0., 0., 1., tSample.r);
-		color = vec4(tSample, 1.0);
-		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord))); // / float(WIDTH);
-		
-		// return vec3(vCoord.x, vCoord.y, float(depthLUT[int(tCoord.x)][int(tCoord.y)])) / float(16);
+		color = tSample;
+		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord)));
 	}
 	
 	color = vec4(0.);

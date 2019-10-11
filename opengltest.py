@@ -77,7 +77,10 @@ def main():
     glInit(1366, 768)
     glutInit()
     program, vertexShader, fragmentShader = compileProgram("vertex_shader.c", "fragment_shader.c")
-    # glEnable(GL_DEPTH_TEST)
+    glEnable(GL_DEPTH_TEST)
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    glEnable(GL_BLEND)
    
     UNIFORMS_LOCATIONS = {
             "projectionMatrix" : glGetUniformLocation(program, "projectionMatrix"),
@@ -94,7 +97,7 @@ def main():
     rZ = 90
 
     img = pygame.image.load("sphere256.png")
-    imgData = pygame.image.tostring(img, "RGB", 1)
+    imgData = pygame.image.tostring(img, "RGBA", 1)
     width, height = img.get_width(), img.get_height()
 
     glEnable(GL_POINT_SPRITE)
@@ -104,7 +107,7 @@ def main():
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
     glBindTexture(GL_TEXTURE_2D, texture)
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData)
 
     glEnable(GL_TEXTURE_2D)
 
