@@ -120,3 +120,22 @@ def viewport(x, y, w, h):
                       [0  , h/2, 0,y+h/2],
                       [0  , 0  , 1,    0],
                       [0  , 0  , 0,    1]])
+
+
+def fpscam(eye, pitch, yaw):
+    pitch = math.degrees(pitch)
+    yaw = math.degrees(yaw)
+    cosPitch = math.cos(pitch)
+    sinPitch = math.sin(pitch)
+    cosYaw = math.cos(yaw)
+    sinYaw = math.sin(yaw)
+
+    xAxis = [cosYaw, 0, -sinYaw]
+    yAxis = [sinYaw * sinPitch, cosPitch, cosYaw * sinPitch]
+    zAxis = [sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw]
+
+    return np.matrix([
+        [xAxis[0], yAxis[0], zAxis[0], 0],
+        [xAxis[1], yAxis[1], zAxis[1], 0],
+        [xAxis[2], yAxis[2], zAxis[2], 0],
+        [-np.dot(xAxis, eye), -np.dot(yAxis, eye), -np.dot(zAxis, eye), 1]])

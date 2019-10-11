@@ -98,8 +98,9 @@ vec3 getPointOnVolume(int index)
 	
 	if (tSample != vec3(.0))
 	{
-		color = vec4(0., 0., 1., tSample.r);
-		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord))) / float(WIDTH);
+		// color = vec4(0., 0., 1., tSample.r);
+		color = vec4(tSample, 1.0);
+		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord))); // / float(WIDTH);
 		
 		// return vec3(vCoord.x, vCoord.y, float(depthLUT[int(tCoord.x)][int(tCoord.y)])) / float(16);
 	}

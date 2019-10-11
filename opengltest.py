@@ -117,6 +117,12 @@ def main():
     deltaX = 0
     deltaY = 0
     deltaZ = 0
+    deltaRZ = 0
+
+    mouseX, mouseY = pygame.mouse.get_pos()
+
+    lookX = 0
+    lookY = 0
 
     while True:
         for event in pygame.event.get():
@@ -133,13 +139,14 @@ def main():
                     deltaX = 0.1
                 elif event.key == pygame.K_a:
                     deltaX = -0.1
-
                 elif event.key == pygame.K_q:
-                    # rZ -= 10
                     deltaZ = -0.1
                 elif event.key == pygame.K_e:
-                    # rZ += 10
                     deltaZ = 0.1
+                elif event.key == pygame.K_c:
+                    deltaRZ = 0.1
+                elif event.key == pygame.K_z:
+                    deltaRZ = -0.1
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
@@ -154,34 +161,44 @@ def main():
                     deltaZ = 0
                 elif event.key == pygame.K_e:
                     deltaZ = 0
+                elif event.key == pygame.K_c:
+                    deltaRZ = 0
+                elif event.key == pygame.K_z:
+                    deltaRZ = 0
 
+        mouseX_, mouseY_ = pygame.mouse.get_pos()
+
+        if (mouseX - mouseX_) > 0:
+            lookX += 0.1
+        elif (mouseX - mouseX_) < 0:
+            lookX -= 0.1
+
+        if (mouseY - mouseY_) > 0:
+            lookY += 0.1
+        elif (mouseY - mouseY_) < 0:
+            lookY -= 0.1
+
+        mouseX = mouseX_
+        mouseY = mouseY_
 
         cY += deltaY
         cX -= deltaX
         cZ -= deltaZ
-
-        '''
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_w or event.key == pygame.K_s:
-                    cY = 0
-                elif event.key == pygame.K_d or event.key == pygame.K_a:
-                    cX = 0
-                elif event.key == pygame.K_q or event.key == pygame.K_e:
-                     rZ = 0
-        '''
+        rZ += deltaRZ
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-
-        eye = np.array([0.0, 0.0, 0.0])
-        target = np.array([cX, cY, cZ])
-        up = np.array([0.0, 0.0, 1.0])
+        # eye = np.array([0.0, 0.0, 0.0])
+        # target = np.array([lookX, lookY, 0.0])
+        # up = np.array([0.0, 1.0, 0.0])
 
         projectionMatrix = perspective(90.0, 1366.0 / 768.0, 0.1, 1000.0)
-        viewMatrix = lookat(eye, target, up)
         viewMatrix = identity()
-        modelMatrix = translate((cX, cZ, -3.0 + cY))
-        modelMatrix *= rotate(rZ, (0.0, 1.0, 0.0))
+        modelMatrix = identity()
+        viewMatrix = translate((cX*10, cZ*10, -30.0 + cY*10))
+        viewMatrix *= rotate(rZ*10, (0.0, 1.0, 0.0))
+        # viewMatrix = lookat(eye, tairget, up)
+        # viewMatrix = fpscam(eye, lookX, lookY)
         
         angle += 1.0
 
@@ -203,4 +220,6 @@ def main():
 
 
 
+
 main()
+
