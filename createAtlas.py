@@ -24,7 +24,9 @@ def createSphere():
 
     for i in range(int(height / 2)):
         layer = np.zeros(size)
-        layer = cv2.circle(layer, center, i, (1.0), -1)
+        radius = abs(int(math.sin(i) * i))
+        
+        layer = cv2.circle(layer, center, radius, (1.0), -1)
         sphere.append(layer)
 
     for i in reversed(range(int(height / 2))):
@@ -65,7 +67,8 @@ def saveToDisk(volume, name):
 def main():
    obj = createSphere()
    obj = createAtlas(obj)
-   saveToDisk(obj, "sphere256")
+   obj = cv2.rotate(obj, cv2.ROTATE_90_CLOCKWISE)
+   saveToDisk(obj, "spherecubic4k")
 
 
 

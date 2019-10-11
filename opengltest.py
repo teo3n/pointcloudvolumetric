@@ -96,7 +96,7 @@ def main():
     cZ = 0
     rZ = 90
 
-    img = pygame.image.load("sphere256.png")
+    img = pygame.image.load("spherecubic4k.png")
     imgData = pygame.image.tostring(img, "RGBA", 1)
     width, height = img.get_width(), img.get_height()
 
