@@ -1,6 +1,8 @@
 
-move the camera with WASD, QE is up-down, ZC is turn left/right
+Move the camera with WASD, QE is up-down, ZC is turn left/right, TR is increase/decrease cutoff threshold.
 
-change the defines in vertex_shader.c if experiementing with different form factors (ATM 256x256 tiling, 4096x4096 image therefore tiling is 16)
+Change the defines in vertex_shader.c if experiementing with different form factors (ATM 256x256 tiling, 4096x4096 image therefore tiling is 16)
 
 Color of the mesh is defined by the color of the sample, alpha is included
+
+
