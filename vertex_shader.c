@@ -7,16 +7,20 @@ uniform mat4 projectionMatrix;
 
 uniform sampler2D atlas;
 
+uniform float cutoffThreshold;
+
 out vec4 color;
 
 #define TILING 16
 #define WIDTH 256
 #define SAMPLEWIDTH 4096
 
-#define POINT_SIZE 1.
+#define POINT_SIZE 1.5
+//#define THRESHOLD vec3(0.27, 0.27, 0.27)
 
 
 int depthLUT[TILING][TILING];
+vec3 THRESHOLD;
 
 
 void populateDepthLUT()
@@ -94,7 +98,7 @@ vec3 getPointOnVolume(int index)
 	sCoord = sCoord / float(SAMPLEWIDTH);
 	vec4 tSample = texture(atlas, sCoord);
 	
-	if (tSample.rgb != vec3(.0))
+	if (tSample.x > THRESHOLD.x && tSample.y > THRESHOLD.y && tSample.z > THRESHOLD.z)
 	{
 		color = tSample;
 		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord)));
@@ -106,6 +110,7 @@ vec3 getPointOnVolume(int index)
 
 void main()
 {
+	THRESHOLD = vec3(cutoffThreshold);
 	populateDepthLUT();
 	vec3 vertexPos = getPointOnVolume(gl_VertexID);
 	gl_PointSize = POINT_SIZE;

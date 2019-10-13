@@ -86,7 +86,8 @@ def main():
             "projectionMatrix" : glGetUniformLocation(program, "projectionMatrix"),
             "modelMatrix" : glGetUniformLocation(program, "modelMatrix"),
             "viewMatrix" : glGetUniformLocation(program, "viewMatrix"),
-            "atlas" : glGetUniformLocation(program, "atlas")
+            "atlas" : glGetUniformLocation(program, "atlas"),
+            "cutoffThreshold" : glGetUniformLocation(program, "cutoffThreshold")
             }
 
     angle = 0
@@ -96,7 +97,7 @@ def main():
     cZ = 0
     rZ = 90
 
-    img = pygame.image.load("spherecubic4k.png")
+    img = pygame.image.load("brainatlas.png")
     imgData = pygame.image.tostring(img, "RGBA", 1)
     width, height = img.get_width(), img.get_height()
 
@@ -127,6 +128,9 @@ def main():
     lookX = 0
     lookY = 0
 
+    cutoff = 0.0
+    
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -150,6 +154,11 @@ def main():
                     deltaRZ = 0.1
                 elif event.key == pygame.K_z:
                     deltaRZ = -0.1
+
+                elif event.key == pygame.K_r:
+                    cutoff -= 0.05
+                elif event.key == pygame.K_t:
+                    cutoff += 0.05
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
@@ -184,9 +193,9 @@ def main():
         mouseX = mouseX_
         mouseY = mouseY_
 
-        cY += deltaY
-        cX -= deltaX
-        cZ -= deltaZ
+        cY += deltaY * 2
+        cX -= deltaX * 2
+        cZ -= deltaZ * 2
         rZ += deltaRZ
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -210,6 +219,7 @@ def main():
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["projectionMatrix"], 1, GL_TRUE,  projectionMatrix)
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["modelMatrix"], 1, GL_TRUE, modelMatrix)        
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["viewMatrix"], 1, GL_TRUE, viewMatrix)
+        glUniform1f(UNIFORMS_LOCATIONS["cutoffThreshold"], cutoff)
 
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, texture)
