@@ -92,9 +92,9 @@ def main():
 
     angle = 0
 
-    cY = 1
+    cY = 0
     cX = 0
-    cZ = 0
+    cZ = -200
     rZ = 90
 
     img = pygame.image.load("brainatlas.png")
@@ -128,7 +128,7 @@ def main():
     lookX = 0
     lookY = 0
 
-    cutoff = 0.0
+    cutoff = 0.05 * 7
     
 
     while True:
@@ -193,23 +193,41 @@ def main():
         mouseX = mouseX_
         mouseY = mouseY_
 
-        cY += deltaY * 2
-        cX -= deltaX * 2
-        cZ -= deltaZ * 2
+        cY -= deltaY * 0.5
+        cX += deltaX * 0.8
+        cZ += deltaZ * 30
         rZ += deltaRZ
+
+        PI = 3.14159
+        if cY > PI / 4.0:
+            cY = PI / 4.0
+        elif cY < -PI / 4.0:
+            cY = -PI / 4.0
+
+        if cZ > -1:
+            cZ = -1
+        elif cZ < -300:
+            cZ = -300
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-        # eye = np.array([0.0, 0.0, 0.0])
-        # target = np.array([lookX, lookY, 0.0])
-        # up = np.array([0.0, 1.0, 0.0])
+        xp, yp, zp = orbit(cX, cY, cZ)
+
+        eye = np.array([xp, yp, zp])
+        target = np.array([0.0, 0.0, 0.0])
+        up = np.array([0.0, 1.0, 0.0])
 
         projectionMatrix = perspective(90.0, 1366.0 / 768.0, 0.1, 1000.0)
         viewMatrix = identity()
         modelMatrix = identity()
-        viewMatrix = translate((cX*10, cZ*10, -30.0 + cY*10))
-        viewMatrix *= rotate(rZ*10, (0.0, 1.0, 0.0))
-        # viewMatrix = lookat(eye, tairget, up)
+        modelMatrix *= rotate(90, (0.0, 1.0, 0.0))
+        modelMatrix *= rotate(-90, (1.0, 0.0, 0.0))
+        modelMatrix *= translate((0.0, 0.0, 50.0))
+        # modelMatrix *= rotate(cY*30, (1.0, 0.0, 0.0))
+        # viewMatrix = translate((cX*10, cZ*10, -30.0 + cY*10))
+        # viewMatrix *= rotate(rZ*10, (0.0, 1.0, 0.0))
+        viewMatrix = lookat(eye, target, up)
+        # viewMatrix = translate((xp, yp, zp))
         # viewMatrix = fpscam(eye, lookX, lookY)
         
         angle += 1.0

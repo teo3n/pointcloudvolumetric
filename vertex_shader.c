@@ -101,7 +101,7 @@ vec3 getPointOnVolume(int index)
 	if (tSample.x > THRESHOLD.x && tSample.y > THRESHOLD.y && tSample.z > THRESHOLD.z)
 	{
 		color = tSample;
-		return vec3(vCoord.x, vCoord.y, float(getDepth(tCoord)));
+		return vec3(vCoord.x - 128.0, vCoord.y - 128., float(getDepth(tCoord)) - 128.);
 	}
 	
 	color = vec4(0.);

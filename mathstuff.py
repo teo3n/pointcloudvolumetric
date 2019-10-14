@@ -1,6 +1,8 @@
 import math
 import numpy as np
 
+PI = 3.14159
+
 def transform(m, v):
     return np.asarray(m * np.asmatrix(v).T)[:,0]
 
@@ -19,6 +21,14 @@ def identity():
                      [0.0, 1.0, 0.0, 0.0],
                      [0.0, 0.0, 1.0, 0.0],
                      [0.0, 0.0, 0.0, 1.0]])
+
+def orbit(th, phi, r):
+    xp = r * math.sin(th) * math.cos(phi)
+    # yp = r * math.sin(th) * math.sin(phi)
+    yp = r * math.sin(phi)
+    zp = r * math.cos(th)
+
+    return xp, yp, zp
 
 def ortho(l, r, b, t, n, f):
     dx = r - l

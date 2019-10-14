@@ -1,4 +1,8 @@
 
+New controls: orbit the camera with WASD (AD - left-right, WS - up-down), TR is increase/decrease threshold, EQ is zoom in/out
+
+
+
 Move the camera with WASD, QE is up-down, ZC is turn left/right, TR is increase/decrease cutoff threshold.
 
 Change the defines in vertex_shader.c if experiementing with different form factors (ATM 256x256 tiling, 4096x4096 image therefore tiling is 16)
