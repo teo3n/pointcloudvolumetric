@@ -1,5 +1,5 @@
 
-New controls: orbit the camera with WASD (AD - left-right, WS - up-down), TR is increase/decrease threshold, EQ is zoom in/out
+New controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down
 
 
 

@@ -139,17 +139,17 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
-                    deltaY = 0.1
+                    deltaZ = 0.1
                 elif event.key == pygame.K_s:
-                    deltaY = -0.1
+                    deltaZ = -0.1
                 elif event.key == pygame.K_d:
                     deltaX = 0.1
                 elif event.key == pygame.K_a:
                     deltaX = -0.1
                 elif event.key == pygame.K_q:
-                    deltaZ = -0.1
+                    deltaY = -0.1
                 elif event.key == pygame.K_e:
-                    deltaZ = 0.1
+                    deltaY = 0.1
                 elif event.key == pygame.K_c:
                     deltaRZ = 0.1
                 elif event.key == pygame.K_z:
@@ -162,17 +162,17 @@ def main():
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
-                    deltaY = 0
+                    deltaZ = 0
                 elif event.key == pygame.K_s:
-                    deltaY = 0
+                    deltaZ = 0
                 elif event.key == pygame.K_d:
                     deltaX = 0
                 elif event.key == pygame.K_a:
                     deltaX = 0
                 elif event.key == pygame.K_q:
-                    deltaZ = 0
+                    deltaY = 0
                 elif event.key == pygame.K_e:
-                    deltaZ = 0
+                    deltaY = 0
                 elif event.key == pygame.K_c:
                     deltaRZ = 0
                 elif event.key == pygame.K_z:
