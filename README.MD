@@ -1,4 +1,4 @@
-This is a real-time pointcloud volumetric viewer. A demo video can be found at https://www.youtube.com/watch?v=uB-b-hXqfhc.
+This is A Real-Time GPU Accelerated 3D Point Cloud Based Volumetric Viewer. A demo video can be found at https://www.youtube.com/watch?v=uB-b-hXqfhc.
 
 Controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down
 Run volumetricviewer.py with python3.
