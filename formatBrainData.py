@@ -3,6 +3,7 @@ import cv2
 import glob
 import math
 
+# these files have been removed for copyright's sake
 files = sorted(glob.glob("data/brain/*.png"))
 
 
