@@ -1,13 +1,15 @@
+This is a real-time pointcloud volumetric viewer. A demo video can be found at https://www.youtube.com/watch?v=uB-b-hXqfhc.
 
-New controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down
+Controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down
 Run volumetricviewer.py with python3.
 
-Reqiurements: glut and GLSL 4.30 support (right now configured for 4.40). Python libraries: pillow, numpy, pyopengl, pygame
-note: the program can be run without glut by commenting lines import OPENGL.GLUT and glutInit(), though results are inconsistent at best. 
+Requirements: glut and GLSL 4.30 support (right now configured for 4.40). GLSL 4.30 is required for multidimensional array support. Python libraries: pillow, numpy, pyopengl and pygame. OpenCV (opencv-python) is required for generating atlases.
+Note: the program can be run without glut by commenting lines import OPENGL.GLUT and glutInit(), though results are inconsistent at best and may result in no depth being rendered. 
 
+This program has been tested on Ubuntu 19.04 and OpenSuse Tumbleweed with freeglut-devel and the latest (43x) NVidia drivers installed. The volumetric viewer achieves a stable framerate of 60Hz on GTX1080 with i7-4770 when rendering the default brain.
 
-To view other file:
-Change the defines in vertex_shader.c if experiementing with different form factors (ATM 256x256 tiling, 4096x4096 image therefore tiling is 16)
-Color of the mesh is defined by the color of the sample, alpha is included
+To view other files:
+Change the defines in vertex_shader.c. If experiementing with different form factors (currently set to 256x256 tiling, 4096x4096 image therefore tiling is 16). In addition, the amount of verticies has to be defined in volumetricviewer.py in the drawcall to be the same as the amount of pixels in the atlas.
 
-
+An atlas can be generated using either createAtlas.py, in which you can define your own mathematical formula by which to generate the atlas. Additionally formatBrainData.py can be used to generate an atlas from a image sequence. The viewer reads the data from bottom to up, left to right. The generated atlases have to be rotated -90d before they are usable in the viewer.
+Color of the mesh is defined by the color of the sample, including alpha.
