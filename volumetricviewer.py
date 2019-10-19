@@ -10,7 +10,7 @@ from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-zfrom OpenGL.GLUT import *
+from OpenGL.GLUT import *
 
 from mathstuff import *
 
