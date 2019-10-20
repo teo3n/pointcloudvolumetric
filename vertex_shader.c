@@ -8,6 +8,7 @@ uniform mat4 projectionMatrix;
 uniform sampler2D atlas;
 
 uniform float cutoffThreshold;
+uniform float pointSize;
 
 out vec4 color;
 
@@ -15,7 +16,7 @@ out vec4 color;
 #define WIDTH 256
 #define SAMPLEWIDTH 4096
 
-#define POINT_SIZE 1.5
+//#define POINT_SIZE 1.5
 //#define THRESHOLD vec3(0.27, 0.27, 0.27)
 
 
@@ -113,6 +114,6 @@ void main()
 	THRESHOLD = vec3(cutoffThreshold);
 	populateDepthLUT();
 	vec3 vertexPos = getPointOnVolume(gl_VertexID);
-	gl_PointSize = POINT_SIZE;
+	gl_PointSize = pointSize; //POINT_SIZE;
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 }

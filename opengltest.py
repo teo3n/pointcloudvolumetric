@@ -10,7 +10,7 @@ from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GLUT import *
+# from OpenGL.GLUT import *
 
 from mathstuff import *
 
@@ -75,7 +75,7 @@ def compileProgram(vertex_source, fragment_source):
 def main():
     pygame.init()
     glInit(1366, 768)
-    glutInit()
+    # glutInit()
     program, vertexShader, fragmentShader = compileProgram("vertex_shader.c", "fragment_shader.c")
     glEnable(GL_DEPTH_TEST)
 
@@ -87,7 +87,8 @@ def main():
             "modelMatrix" : glGetUniformLocation(program, "modelMatrix"),
             "viewMatrix" : glGetUniformLocation(program, "viewMatrix"),
             "atlas" : glGetUniformLocation(program, "atlas"),
-            "cutoffThreshold" : glGetUniformLocation(program, "cutoffThreshold")
+            "cutoffThreshold" : glGetUniformLocation(program, "cutoffThreshold"),
+            "pointSize" : glGetUniformLocation(program, "pointSize")
             }
 
     angle = 0
@@ -129,6 +130,7 @@ def main():
     lookY = 0
 
     cutoff = 0.05 * 7
+    pointsize = 1.0
     
 
     while True:
@@ -159,6 +161,11 @@ def main():
                     cutoff -= 0.05
                 elif event.key == pygame.K_t:
                     cutoff += 0.05
+
+                elif event.key == pygame.K_y:
+                    pointsize += 0.1
+                elif event.key == pygame.K_h:
+                    pointsize -= 0.1
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
@@ -238,6 +245,7 @@ def main():
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["modelMatrix"], 1, GL_TRUE, modelMatrix)        
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["viewMatrix"], 1, GL_TRUE, viewMatrix)
         glUniform1f(UNIFORMS_LOCATIONS["cutoffThreshold"], cutoff)
+        glUniform1f(UNIFORMS_LOCATIONS["pointSize"], pointsize)
 
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, texture)
