@@ -1,3 +1,5 @@
+note: if your device doesn't support GLSL 440 you might want to check the branch DownGraded, which contains shaders ported to use GLSL 330 es.
+
 This is A Real-Time GPU Accelerated 3D Point Cloud Based Volumetric Viewer done with python and OpenGL. A demo video can be found at https://www.youtube.com/watch?v=uB-b-hXqfhc.
 
 Controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down, YH is increase/decrease point size
