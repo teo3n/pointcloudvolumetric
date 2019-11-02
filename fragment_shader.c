@@ -1,8 +1,9 @@
-#version 440
+#version 320 es
 
-in vec4 color;
+in mediump vec4 color;
+out mediump vec4 fragColor;
 
 void main()
 {
-	gl_FragColor = color;
+	fragColor = color;
 }

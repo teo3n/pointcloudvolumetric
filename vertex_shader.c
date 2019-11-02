@@ -1,4 +1,4 @@
-#version 440
+#version 320 es
 
 //in layout(location=0) vec3 vertexPos;
 uniform mat4 modelMatrix;
