@@ -2,6 +2,7 @@ note: the program requires GLSL 3.30 ES support. This should be available on nea
 
 This is A Real-Time GPU Accelerated 3D Point Cloud Based Volumetric Viewer done with python and OpenGL. A demo video can be found at https://www.youtube.com/watch?v=uB-b-hXqfhc.
 
+Here you can see an example of what the viewer looks like rendering the 2k demobrain
 ![Demonstration of colorin](colordemo.png)
 
 Controls: orbit the camera with WASD (AD - left-right, WS - forwards/backwads), TR is increase/decrease threshold, EQ is up/down, YH is increase/decrease point size, b toggles between adaptive and absolute coloring profile
