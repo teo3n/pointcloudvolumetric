@@ -10,11 +10,14 @@ uniform sampler2D atlas;
 uniform float cutoffThreshold;
 uniform float pointSize;
 
+uniform float maxVal;
+uniform float minVal;
+
 out vec4 color;
 
 #define TILING 16
-#define WIDTH 256
-#define SAMPLEWIDTH 4096
+#define WIDTH 128
+#define SAMPLEWIDTH 2048
 
 //#define POINT_SIZE 1.5
 //#define THRESHOLD vec3(0.27, 0.27, 0.27)
@@ -22,7 +25,6 @@ out vec4 color;
 
 int depthLUT[TILING][TILING];
 vec3 THRESHOLD;
-
 
 void populateDepthLUT()
 {
@@ -33,7 +35,7 @@ void populateDepthLUT()
 		for (int y = 0; y < TILING; y++)
 		{
 			depthLUT[x][y] = currentDepth;
-			currentDepth++;			
+			currentDepth++;
 		}
 	}
 }
@@ -61,6 +63,7 @@ vec2 getVolumeCoordinate(vec2 sCoord)
 	int y = int(sCoord.y) % WIDTH;
 
 	return vec2(float(x), float(y));
+	
 }
 
 int getTile(int x)
@@ -90,6 +93,32 @@ vec2 getTileCoordinate(vec2 sampleCoord)
 	return vec2(float(x_), float(y_));
 }
 
+vec4 remapColor(vec4 sColor)
+{
+	float fstThird = minVal + ((maxVal - minVal) / 3.0);
+	float sndThird = minVal + (2. * (maxVal - minVal) / 3.0);
+
+	if (sColor.w == 0.0)
+		return sColor;
+
+	float s = sColor.x;
+
+	if (s < fstThird && s >= minVal)
+	{
+		return vec4(s, 0.0, 0.0, sColor.w);
+	}
+	else if (s < sndThird && s >= fstThird)
+	{
+		return vec4(0.0, s, 0.0, sColor.w);
+	}
+	else if (s <= maxVal && s >= sndThird)
+	{
+		return vec4(0.0, 0.0, s, sColor.w);
+	}
+
+	return vec4(1.);
+}
+
 vec3 getPointOnVolume(int index)
 {
 	vec2 sCoord = getSampleCoordinate(index);
@@ -98,13 +127,13 @@ vec3 getPointOnVolume(int index)
 
 	sCoord = sCoord / float(SAMPLEWIDTH);
 	vec4 tSample = texture(atlas, sCoord);
-	
+
 	if (tSample.x > THRESHOLD.x && tSample.y > THRESHOLD.y && tSample.z > THRESHOLD.z)
 	{
-		color = tSample;
-		return vec3(vCoord.x - 128.0, vCoord.y - 128., float(getDepth(tCoord)) - 128.);
+		color = remapColor(tSample);
+		return vec3((vCoord.x - 64.)*2., (vCoord.y -64.)*2., float(getDepth(tCoord)) - 128.);
 	}
-	
+
 	color = vec4(0.);
 	return vec3(0.);
 }

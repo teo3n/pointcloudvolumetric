@@ -8,6 +8,8 @@ from PIL import Image
 import pygame
 from pygame.locals import *
 
+import cv2
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 # from OpenGL.GLUT import *
@@ -19,6 +21,8 @@ GL_FRAGMENT_SHADER = 0x8B30
 GL_COMPILE_STATUS = 0x8B81
 GL_LINK_STATUS = 0x8B82
 GL_INFO_LOG_LENGTH = 0x8B84
+
+FILEPATH = "brainatlas2k.png"
 
 
 def glInit(x, y):
@@ -73,6 +77,11 @@ def compileProgram(vertex_source, fragment_source):
     return program, vertexShader, fragmentShader
 
 def main():
+
+    img = cv2.imread(FILEPATH)
+    imgMaxVal = np.max(img) / 256.0
+    imgMinVal = np.min(img) / 256.0
+
     pygame.init()
     glInit(1366, 768)
     # glutInit()
@@ -88,7 +97,9 @@ def main():
             "viewMatrix" : glGetUniformLocation(program, "viewMatrix"),
             "atlas" : glGetUniformLocation(program, "atlas"),
             "cutoffThreshold" : glGetUniformLocation(program, "cutoffThreshold"),
-            "pointSize" : glGetUniformLocation(program, "pointSize")
+            "pointSize" : glGetUniformLocation(program, "pointSize"),
+            "minVal" : glGetUniformLocation(program, "minVal"),
+            "maxVal" : glGetUniformLocation(program, "maxVal")
             }
 
     angle = 0
@@ -98,7 +109,7 @@ def main():
     cZ = -200
     rZ = 90
 
-    img = pygame.image.load("brainatlas.png")
+    img = pygame.image.load(FILEPATH)
     imgData = pygame.image.tostring(img, "RGBA", 1)
     width, height = img.get_width(), img.get_height()
 
@@ -241,11 +252,13 @@ def main():
 
         glUseProgram(program)
 
-        glUniformMatrix4fv(UNIFORMS_LOCATIONS["projectionMatrix"], 1, GL_TRUE,  projectionMatrix)
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["modelMatrix"], 1, GL_TRUE, modelMatrix)        
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["viewMatrix"], 1, GL_TRUE, viewMatrix)
+        glUniformMatrix4fv(UNIFORMS_LOCATIONS["projectionMatrix"], 1, GL_TRUE,  projectionMatrix)
         glUniform1f(UNIFORMS_LOCATIONS["cutoffThreshold"], cutoff)
         glUniform1f(UNIFORMS_LOCATIONS["pointSize"], pointsize)
+        glUniform1f(UNIFORMS_LOCATIONS["minVal"], imgMinVal)
+        glUniform1f(UNIFORMS_LOCATIONS["maxVal"], imgMaxVal)
 
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, texture)
