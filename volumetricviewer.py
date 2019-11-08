@@ -142,6 +142,8 @@ def main():
 
     cutoff = 0.05 * 7
     pointsize = 1.0
+
+    minValAbsolute = False
     
 
     while True:
@@ -177,6 +179,9 @@ def main():
                     pointsize += 0.1
                 elif event.key == pygame.K_h:
                     pointsize -= 0.1
+
+                elif event.key == pygame.K_b:
+                    minValAbsolute = not minValAbsolute
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
@@ -257,8 +262,11 @@ def main():
         glUniformMatrix4fv(UNIFORMS_LOCATIONS["projectionMatrix"], 1, GL_TRUE,  projectionMatrix)
         glUniform1f(UNIFORMS_LOCATIONS["cutoffThreshold"], cutoff)
         glUniform1f(UNIFORMS_LOCATIONS["pointSize"], pointsize)
-        glUniform1f(UNIFORMS_LOCATIONS["minVal"], imgMinVal)
         glUniform1f(UNIFORMS_LOCATIONS["maxVal"], imgMaxVal)
+        if not minValAbsolute:
+            glUniform1f(UNIFORMS_LOCATIONS["minVal"], cutoff)
+        else:
+            glUniform1f(UNIFORMS_LOCATIONS["minVal"], imgMinVal)
 
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, texture)
